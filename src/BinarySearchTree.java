@@ -1,27 +1,32 @@
 import java.util.Stack;
+
 public class BinarySearchTree<E extends Comparable<E>> {
     private TreeNode<E> root;
     private int nodeCount = 0;
+    private int leafNodes = 0;
+    private int height = 0;
+
     public void add(E value) {
         TreeNode<E> addedElement = new TreeNode<>(value, null, null);
+        int count = 0;
         if (root == null) {
             root = addedElement; //defines root
         } else {
             TreeNode<E> trace = root;
             while (true) {
 
+                count++;
+
                 if (value.compareTo(trace.getValue()) <= 0) {
-                    if(trace.getLeftChild() == null) {
+                    if (trace.getLeftChild() == null) {
                         //suitable spot as left child
                         trace.setLeftChild(addedElement);
                         break;
                     }
                     //traverses left child
                     trace = trace.getLeftChild();
-
                 } else {
-
-                    if(trace.getRightChild() == null){
+                    if (trace.getRightChild() == null) {
                         //suitable spot as right child
                         trace.setRightChild(addedElement);
                         break;
@@ -32,10 +37,14 @@ public class BinarySearchTree<E extends Comparable<E>> {
                 }
             }
         }
+        if (count > height) {
+            height = count;
+        }
         nodeCount++;
     }
 
-    public E delete (E value){
+
+    public E delete(E value) {
         TreeNode<E> parent = null;
         TreeNode<E> trace = root;
 
@@ -50,20 +59,20 @@ public class BinarySearchTree<E extends Comparable<E>> {
         }
 
         //checks if the value was found
-        if (trace == null){
+        if (trace == null) {
 
             return null;
 
         } else {
 
-            if (parent == null){
+            if (parent == null) {
                 root = null; //root is being deleted
                 return trace.getValue();
             }
 
             //leaf node
-            else if(trace.getLeftChild() == null && trace.getRightChild() == null){
-                if (parent.getLeftChild() == trace){
+            else if (trace.getLeftChild() == null && trace.getRightChild() == null) {
+                if (parent.getLeftChild() == trace) {
                     parent.setLeftChild(null); //deleted left child
                 } else {
                     parent.setRightChild(null); //deleted right child
@@ -71,27 +80,41 @@ public class BinarySearchTree<E extends Comparable<E>> {
                 return trace.getValue();
             }
 
-            //parent either one or two children
-            else {
+            //parent of two children
+            else if (trace.getLeftChild() != null && trace.getRightChild() != null) {
 
-                //replaces itself with left child
-                if(trace.getLeftChild() != null){
+                TreeNode<E> rightSubtree = trace.getRightChild();
+
+                if (parent.getLeftChild().getValue().compareTo(trace.getValue()) == 0) {
+                    //value being deleted is left child
+                    parent.setLeftChild(trace.getLeftChild()); //replaces with left child
+                } else {
+                    //value being deleted is right child
+                    parent.setRightChild(trace.getLeftChild());
+                }
+
+                //follows the tree until it finds suitable spot for right subtree
+                while (parent.getRightChild() != null) {
+                    parent = parent.getRightChild();
+                }
+
+                parent.setRightChild(rightSubtree);
+            }
+
+            //parent of one child
+            else {
+                //replaces with whatever child it has
+                if (trace.getLeftChild() != null) {
                     parent.setLeftChild(trace.getLeftChild());
                 } else {
                     parent.setRightChild(trace.getRightChild());
                 }
-
-                //runs when two children
-                if(trace.getRightChild() != null && trace.getLeftChild() != null){
-                    TreeNode<E> rightSubtree = trace.getRightChild();
-                    TreeNode<E> newTrace = trace.getLeftChild(); //tracing starts at left child
-
-                    System.out.println(parent.getRightChild().getValue());
-                }
             }
         }
+        nodeCount--;
         return null;
     }
+
 
     public boolean contains(E value) {
         TreeNode<E> trace = root;
@@ -107,22 +130,38 @@ public class BinarySearchTree<E extends Comparable<E>> {
         return trace != null;
     }
 
-    int countNodes(){
+    int countNodes() {
         return nodeCount;
     }
 
-    int countLeafNodes(){
-        return 0;
-    }
-    int getHeight(){
-        return 0;
-    }
-
-    public void printInOrder(){
+    int countLeafNodes() {
         Stack<TreeNode<E>> stack = new Stack<>();
         TreeNode<E> trace = root;
+        //continues loop until neither left nor right child is empty
 
-        //continues loop until neither left or right child is empty
+        while (trace != null || !stack.isEmpty()) {
+            while (trace != null) {
+                if (trace.getLeftChild() == null && trace.getRightChild() == null) {
+                    leafNodes++;
+                }
+                stack.push(trace.getRightChild()); //stores right child information
+                trace = trace.getLeftChild(); //traverses left child
+            }
+            if (!stack.isEmpty()) {
+                trace = stack.pop();
+            }
+        }
+        return leafNodes;
+    }
+
+    int getHeight() {
+        return height;
+    }
+
+    public void printInOrder() {
+        Stack<TreeNode<E>> stack = new Stack<>();
+        TreeNode<E> trace = root;
+        //continues loop until neither left nor right child is empty
         while (trace != null || !stack.isEmpty()) {
 
             //goes as far left as possible
@@ -130,37 +169,30 @@ public class BinarySearchTree<E extends Comparable<E>> {
                 stack.push(trace);
                 trace = trace.getLeftChild();
             }
-
             trace = stack.pop(); //goes to next available node to check its right tree
-            System.out.println(trace.getValue());
+            System.out.print(trace.getValue() + " ");
 
             //traverses the right subtree
             trace = trace.getRightChild();
         }
     }
 
-
     public void printPreorder() {
         Stack<TreeNode<E>> stack = new Stack<>();
         TreeNode<E> trace = root;
-
         //continues the loop until neither the left or right child is empty
-        while (trace != null || !stack.isEmpty()){
-            while(trace != null){
+        while (trace != null || !stack.isEmpty()) {
+            while (trace != null) {
                 System.out.println(trace.getValue()); //prints root
                 stack.push(trace.getRightChild()); //pushes right child in stack
                 trace = trace.getLeftChild(); //traverses left child
             }
-            if (!stack.isEmpty()){
+            if (!stack.isEmpty()) {
                 trace = stack.pop(); //traverses right child
             }
         }
     }
 
-
-    /**
-     * MAKE SURE YOU REVISIT THIS CODE TO FULLY UNDERSTAND IT
-     */
     public void printPostorder() {
         Stack<TreeNode<E>> stack = new Stack<>();
         TreeNode<E> trace = root;

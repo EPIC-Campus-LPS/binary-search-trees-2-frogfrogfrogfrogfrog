@@ -12,6 +12,6 @@ public class Main {
         tree.add(2);
         tree.add(6);
         tree.add(10);
-        tree.delete(8);
+        tree.printInOrder();
     }
 }
