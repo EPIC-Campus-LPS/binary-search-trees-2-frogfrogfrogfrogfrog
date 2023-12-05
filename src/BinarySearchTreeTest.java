@@ -6,19 +6,12 @@ class BinarySearchTreeTest {
     void add() {
         BinarySearchTree tree = new BinarySearchTree();
 
-        tree.add(5);
-        tree.add(3);
-        tree.add(8);
-        tree.add(1);
-        tree.add(4);
-        tree.add(7);
-        tree.add(9);
-        tree.add(2);
-        tree.add(6);
-        tree.add(10);
+        tree.add(5); //adds root
+        tree.add(3); //adds left child
+        tree.add(8); //adds right child
 
         //elements to check for
-        int[] elementsToCheck = {1,2,3,4,5,6,7,8,9,10};
+        int[] elementsToCheck = {5,3,8};
 
         for (int element : elementsToCheck){
             assertEquals(true, tree.contains(element));
@@ -30,26 +23,26 @@ class BinarySearchTreeTest {
         BinarySearchTree tree = new BinarySearchTree();
 
         tree.add(5);
-        tree.add(3);
-        tree.add(8);
-        tree.add(1);
         tree.add(4);
-        tree.add(7);
-        tree.add(9);
-        tree.add(2);
         tree.add(6);
+
+        tree.delete(5); //two children + root
+        assertEquals(false, tree.contains(5));
+
+        tree.add(3); //leaf
+        tree.delete(3);
+        assertEquals(false, tree.contains(3));
+
+        tree.add(8);
+        tree.delete(6); //one right child
+        assertEquals(false, tree.contains(6));
+
+        tree.delete(90); //deletes a value that doesn't exist in tree
+
         tree.add(10);
-
-        tree.delete(10);
-        tree.delete(5);
-        tree.delete(8);
-
-        //elements to check for
-        int[] elementsToCheck = {10,5,8,90};
-
-        for (int element : elementsToCheck){
-            assertEquals(false, tree.contains(element));
-        }
+        tree.add(7);
+        tree.delete(8); //two children + not root
+        assertEquals(false, tree.contains(8));
     }
 
     @org.junit.jupiter.api.Test
@@ -95,10 +88,39 @@ class BinarySearchTreeTest {
 
     @org.junit.jupiter.api.Test
     void countLeafNodes() {
+        BinarySearchTree tree = new BinarySearchTree();
+
+        tree.add(5);
+        tree.add(3);
+        tree.add(8);
+        tree.add(1);
+        tree.add(4);
+        tree.add(7);
+        tree.add(9);
+        tree.add(2);
+        tree.add(6);
+        tree.add(10);
+
+        assertEquals(4, tree.countLeafNodes());
     }
 
     @org.junit.jupiter.api.Test
     void getHeight() {
+
+        BinarySearchTree tree = new BinarySearchTree();
+
+        tree.add(5);
+        tree.add(3);
+        tree.add(8);
+        tree.add(1);
+        tree.add(4);
+        tree.add(7);
+        tree.add(9);
+        tree.add(2);
+        tree.add(6);
+        tree.add(10);
+
+        assertEquals(3, tree.getHeight());
     }
 
     @org.junit.jupiter.api.Test

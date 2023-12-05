@@ -1,3 +1,5 @@
+import com.sun.source.tree.Tree;
+
 import java.util.Stack;
 
 public class BinarySearchTree<E extends Comparable<E>> {
@@ -14,7 +16,6 @@ public class BinarySearchTree<E extends Comparable<E>> {
         } else {
             TreeNode<E> trace = root;
             while (true) {
-
                 count++;
 
                 if (value.compareTo(trace.getValue()) <= 0) {
@@ -41,6 +42,7 @@ public class BinarySearchTree<E extends Comparable<E>> {
             height = count;
         }
         nodeCount++;
+
     }
 
 
@@ -65,13 +67,32 @@ public class BinarySearchTree<E extends Comparable<E>> {
 
         } else {
 
+            nodeCount--;
+
+            //deleting parent
             if (parent == null) {
-                root = null; //root is being deleted
-                return trace.getValue();
+
+                TreeNode<E> temp = root;
+
+                if (trace.getLeftChild() == null && trace.getRightChild() == null){
+                    root = null;
+                } else if (trace.getLeftChild() != null && trace.getRightChild() != null){
+                    TreeNode<E> rightSubtree = trace.getRightChild();
+                    root = trace.getLeftChild();
+                    while (root.getRightChild() != null){
+                        root = root.getRightChild();
+                    }
+                    root.setRightChild(rightSubtree);
+                } else {
+                    root = (trace.getLeftChild() != null) ? trace.getLeftChild() : trace.getRightChild();
+                }
+
+                return temp.getValue();
             }
 
             //leaf node
             else if (trace.getLeftChild() == null && trace.getRightChild() == null) {
+
                 if (parent.getLeftChild() == trace) {
                     parent.setLeftChild(null); //deleted left child
                 } else {
@@ -85,12 +106,14 @@ public class BinarySearchTree<E extends Comparable<E>> {
 
                 TreeNode<E> rightSubtree = trace.getRightChild();
 
-                if (parent.getLeftChild().getValue().compareTo(trace.getValue()) == 0) {
-                    //value being deleted is left child
-                    parent.setLeftChild(trace.getLeftChild()); //replaces with left child
-                } else {
-                    //value being deleted is right child
-                    parent.setRightChild(trace.getLeftChild());
+                if(parent.getLeftChild() != null){
+                    if (parent.getLeftChild().getValue().compareTo(trace.getValue()) == 0) {
+                        //value being deleted is left child
+                        parent.setLeftChild(trace.getLeftChild()); //replaces with left child
+                    } else {
+                        //value being deleted is right child
+                        parent.setRightChild(trace.getLeftChild());
+                    }
                 }
 
                 //follows the tree until it finds suitable spot for right subtree
@@ -103,6 +126,7 @@ public class BinarySearchTree<E extends Comparable<E>> {
 
             //parent of one child
             else {
+
                 //replaces with whatever child it has
                 if (trace.getLeftChild() != null) {
                     parent.setLeftChild(trace.getLeftChild());
@@ -111,7 +135,6 @@ public class BinarySearchTree<E extends Comparable<E>> {
                 }
             }
         }
-        nodeCount--;
         return null;
     }
 
