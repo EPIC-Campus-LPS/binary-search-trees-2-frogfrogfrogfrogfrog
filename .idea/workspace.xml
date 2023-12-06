@@ -4,11 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3cde06c1-8483-4df7-9aba-283a057c0dd3" name="Changes" comment="Started binary search tree methods">
+    <list default="true" id="3cde06c1-8483-4df7-9aba-283a057c0dd3" name="Changes" comment="Finished the entire lab including: testing, javadocs, and refining the code.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BinarySearchTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BinarySearchTree.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BinarySearchTreeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BinarySearchTreeTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,7 +54,7 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="BST" />
@@ -146,12 +143,21 @@
       <option name="project" value="LOCAL" />
       <updated>1701800942914</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Finished the entire lab including: testing, javadocs, and refining the code.">
+      <option name="closed" value="true" />
+      <created>1701889126595</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1701889126595</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Started binary search tree methods" />
-    <option name="LAST_COMMIT_MESSAGE" value="Started binary search tree methods" />
+    <MESSAGE value="Finished the entire lab including: testing, javadocs, and refining the code." />
+    <option name="LAST_COMMIT_MESSAGE" value="Finished the entire lab including: testing, javadocs, and refining the code." />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/binary_search_trees_2_frogfrogfrogfrogfrog$BinarySearchTreeTest_contains.ic" NAME="BinarySearchTreeTest.contains Coverage Results" MODIFIED="1701800050906" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
