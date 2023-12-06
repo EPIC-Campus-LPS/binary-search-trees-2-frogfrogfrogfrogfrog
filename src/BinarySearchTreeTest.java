@@ -2,6 +2,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BinarySearchTreeTest {
 
+    java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
+
     @org.junit.jupiter.api.Test
     void add() {
         BinarySearchTree tree = new BinarySearchTree();
@@ -125,13 +127,36 @@ class BinarySearchTreeTest {
 
     @org.junit.jupiter.api.Test
     void printInOrder() {
+        BinarySearchTree tree = new BinarySearchTree();
+        System.setOut(new java.io.PrintStream(out));
+        tree.add(5);
+        tree.add(3);
+        tree.add(8);
+        tree.printInOrder();
+        assertEquals("3 5 8 ",out.toString());
     }
 
     @org.junit.jupiter.api.Test
     void printPreorder() {
+        BinarySearchTree tree = new BinarySearchTree();
+        System.setOut(new java.io.PrintStream(out));
+        tree.add(5);
+        tree.add(3);
+        tree.add(8);
+        tree.printPreorder();
+        assertEquals("5 3 8 ",out.toString());
     }
 
     @org.junit.jupiter.api.Test
     void printPostorder() {
+        BinarySearchTree tree = new BinarySearchTree();
+        System.setOut(new java.io.PrintStream(out));
+        tree.add(5);
+        tree.add(3);
+        tree.add(8);
+        tree.add(1);
+        tree.add(4);
+        tree.printPostorder();
+        assertEquals("1 4 3 8 5 ",out.toString());
     }
 }

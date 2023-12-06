@@ -1,13 +1,22 @@
-import com.sun.source.tree.Tree;
-
 import java.util.Stack;
 
+/**
+ * This class implementes a Binary Search Tree
+ *
+ * @author Cardin Nguyen
+ * @version 1.0, 12/6/2023
+ * @see Stack
+ */
 public class BinarySearchTree<E extends Comparable<E>> {
     private TreeNode<E> root;
     private int nodeCount = 0;
     private int leafNodes = 0;
     private int height = 0;
 
+    /**
+     * Adds an element to a binary search tree
+     * @param value
+     */
     public void add(E value) {
         TreeNode<E> addedElement = new TreeNode<>(value, null, null);
         int count = 0;
@@ -45,7 +54,11 @@ public class BinarySearchTree<E extends Comparable<E>> {
 
     }
 
-
+    /**
+     * Deletes an element from a binary search tree
+     * @param value
+     * @return the value that's deleted if found
+     */
     public E delete(E value) {
         TreeNode<E> parent = null;
         TreeNode<E> trace = root;
@@ -87,7 +100,6 @@ public class BinarySearchTree<E extends Comparable<E>> {
                     root = (trace.getLeftChild() != null) ? trace.getLeftChild() : trace.getRightChild();
                 }
 
-                return temp.getValue();
             }
 
             //leaf node
@@ -98,7 +110,6 @@ public class BinarySearchTree<E extends Comparable<E>> {
                 } else {
                     parent.setRightChild(null); //deleted right child
                 }
-                return trace.getValue();
             }
 
             //parent of two children
@@ -110,8 +121,9 @@ public class BinarySearchTree<E extends Comparable<E>> {
                     if (parent.getLeftChild().getValue().compareTo(trace.getValue()) == 0) {
                         //value being deleted is left child
                         parent.setLeftChild(trace.getLeftChild()); //replaces with left child
-                    } else {
-                        //value being deleted is right child
+                    }
+                } else {
+                    if (parent.getRightChild().getValue().compareTo(trace.getValue()) == 0){
                         parent.setRightChild(trace.getLeftChild());
                     }
                 }
@@ -134,10 +146,16 @@ public class BinarySearchTree<E extends Comparable<E>> {
                     parent.setRightChild(trace.getRightChild());
                 }
             }
+
+            return value;
         }
-        return null;
     }
 
+    /**
+     * Checks if a value is contained in the binary search tree
+     * @param value
+     * @return if the value was found or not
+     */
 
     public boolean contains(E value) {
         TreeNode<E> trace = root;
@@ -153,10 +171,18 @@ public class BinarySearchTree<E extends Comparable<E>> {
         return trace != null;
     }
 
+    /**
+     * Counts the amount of nodes in the tree using an existing variable
+     * @return the amount of nodes in the BST
+     */
     int countNodes() {
         return nodeCount;
     }
 
+    /**
+     * Counts the amount of leaf nodes in the tree using preorder traversal
+     * @return the amount of leaf nodes in the BST
+     */
     int countLeafNodes() {
         Stack<TreeNode<E>> stack = new Stack<>();
         TreeNode<E> trace = root;
@@ -177,10 +203,17 @@ public class BinarySearchTree<E extends Comparable<E>> {
         return leafNodes;
     }
 
+    /**
+     * Counts the height of the tree using an existing variable
+     * @return the height of the BST
+     */
     int getHeight() {
         return height;
     }
 
+    /**
+     * Prints the binary search tree using inorder traversal
+     */
     public void printInOrder() {
         Stack<TreeNode<E>> stack = new Stack<>();
         TreeNode<E> trace = root;
@@ -200,13 +233,16 @@ public class BinarySearchTree<E extends Comparable<E>> {
         }
     }
 
+    /**
+     * Prints the binary search tree using preorder traversal
+     */
     public void printPreorder() {
         Stack<TreeNode<E>> stack = new Stack<>();
         TreeNode<E> trace = root;
         //continues the loop until neither the left or right child is empty
         while (trace != null || !stack.isEmpty()) {
             while (trace != null) {
-                System.out.println(trace.getValue()); //prints root
+                System.out.print(trace.getValue() + " "); //prints root
                 stack.push(trace.getRightChild()); //pushes right child in stack
                 trace = trace.getLeftChild(); //traverses left child
             }
@@ -216,6 +252,9 @@ public class BinarySearchTree<E extends Comparable<E>> {
         }
     }
 
+    /**
+     * Prints the binary search tree using postorder traversal
+     */
     public void printPostorder() {
         Stack<TreeNode<E>> stack = new Stack<>();
         TreeNode<E> trace = root;
@@ -231,7 +270,7 @@ public class BinarySearchTree<E extends Comparable<E>> {
 
             if (top.getRightChild() == null || top.getRightChild() == lastTraced) {
                 // Process the node
-                System.out.println(top.getValue());
+                System.out.print(top.getValue() + " ");
                 lastTraced = stack.pop(); // Mark the current node as processed
             } else {
                 trace = top.getRightChild(); // Move to the right child
